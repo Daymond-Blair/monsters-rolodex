@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import './search-box.styles.css'
 
 // pull in component and initialize class
 class SearchBox extends Component {
@@ -6,9 +7,9 @@ class SearchBox extends Component {
 		console.log('render-search-box')
 		return (
 			<input
-				className="search-box"
+				className={`search-box ${this.props.className}`}
 				type="search"
-				placeholder="search monsters"
+				placeholder={this.props.placeholder}
 				// works like onClick, but onChange changes value, used for input instead of buttons
 				// turn into an onChangeHandler this way we know we are passing a handler function into this onChange event handler
 				onChange={this.props.onChangeHandler}

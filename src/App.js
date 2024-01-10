@@ -48,10 +48,16 @@ class App extends Component {
 		})
 		return (
 			// VIRTUAL DOM
+
 			<div className="App">
 				{/* use imported class components to build out UI */}
 				{/* the search-box uses an onChange handler prop so we can call that as an attribute and set it to onSearchChange */}
-				<SearchBox onChangeHandler={onSearchChange} />
+				<h1 className="app-title">Monster's Rolodex</h1>
+				<SearchBox
+					className="monsters-search-box"
+					onChangeHandler={onSearchChange}
+					placeholder="search monsters"
+				/>
 				<CardList monsters={filteredMonsters} />
 			</div>
 		)
