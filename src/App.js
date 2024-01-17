@@ -14,22 +14,30 @@ const App = () => {
 	console.log('render')
 
 	// useEffect takes a callback and an array of dependencies (state values or prop values) - its a limiter that only re-runs the callback if the values inside change
-	// using an empty dependency argument means the function only runs once since nothing will ever change
+	// using an empty dependency argument means the function only runs once since nothing will ever change, if we instead had the fetch call outside of useEffect, it would run infinitely
 	useEffect(() => {
 		fetch('https://jsonplaceholder.typicode.com/users')
 			.then((response) => response.json())
 			.then((users) => setMonsters(users))
 	}, [])
-	// This will cause an infinite loop since we're pulling in from API, the object (even with same monster names) will always be pointing to a different reference in memory which will always cause re-rendering to fire. Throw fetch in here to stop it from running infinitely
+
 	useEffect(() => {
 		const newFilteredMonsters = monsters.filter((monster) => {
 			return monster.name.toLocaleLowerCase().includes(searchField)
-	}, [])
+		})
+
+		setFilteredMonsters(newFilteredMonsters)
+		console.log('effect is firing')
+	}, [monsters, searchField])
+
 	const onSearchChange = (event) => {
 		const searchFieldString = event.target.value.toLocaleLowerCase()
 		setSearchField(searchFieldString)
 	}
 
+	const onStringChange = (event) => {
+		setStringField(event.target.value)
+	}
 
 	return (
 		<div className="App">
@@ -39,15 +47,10 @@ const App = () => {
 				onChangeHandler={onSearchChange}
 				placeholder="search monsters"
 			/>
-			<SearchBox
-				className="monsters-search-box"
-				onChangeHandler={filteredMonsters}
-				placeholder="search monsters"
-			/>
+			{/* <SearchBox onChangeHandler={onStringChange} placeholder="set string" /> */}
 		</div>
 	)
 }
-
 // CLASS COMPONENT
 // class App extends Component {
 // 	// this is the main component, there is only EVER ONE, this component is what imports all the reusable components and builds out the DOM its like index.js
